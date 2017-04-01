@@ -60,6 +60,8 @@
 		</dependency>
 
 
+
+		<!-- View를 사용하기 위한 셋팅 -->
 		<!-- 기본 템플릿엔진으로 설정 추가해야함 -->
 		<dependency>
 			<groupId>org.apache.tomcat.embed</groupId>
@@ -71,6 +73,7 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 		</dependency>
+
 
 	</dependencies>
 

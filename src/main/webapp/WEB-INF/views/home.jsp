@@ -6,11 +6,11 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title>Home</title>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<jsp:include page="/WEB-INF/views/include/layoutTop.jsp" flush="true" />
+
+<title>세광청년부</title>
 </head>
 <body>
-Hello~
-</body>
-</html>
+
+<jsp:include page="/WEB-INF/views/include/layoutBottom.jsp" flush="true" />
