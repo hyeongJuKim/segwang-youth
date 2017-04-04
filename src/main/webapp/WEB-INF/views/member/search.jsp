@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="/WEB-INF/views/include/layoutTop.jsp" flush="true" />
 
 
@@ -73,28 +74,29 @@
 <div class="container">
 
     <div class="row">
-        <form class="form-inline" method="post" action ="/segwangYouth/members">
-            <div class="form-group">
-                이름: <input type="text" class="form-control" name="name"/>
-                마을:
-                <select class="form-control" name="village">
-                    <option value="">전체</option>
-                    <c:forEach var="villageList" items="${selectList.villageAllList}">
-                        <option value="${villageList.VILLAGE_SEQ}">${villageList.VILLAGE_NAME}</option>
-                    </c:forEach>
-                </select>
-                직책:
-                <select class="form-control" name="memberPosition">
-                    <option value="">전체</option>
-                    <c:forEach var="codeList" items="${selectList.codeListAA}">
-                        <option value="${codeList.CODE_NO}">${codeList.CODE_NAME}</option>
-                    </c:forEach>
-                </select>
-                <button type="submit" class="btn btn-default">조회</button>  <br><br>
-            </div>
-        </form>
+        <%--<form class="form-inline" method="post" action ="/segwangYouth/members">--%>
+            <%--<div class="form-group">--%>
+                <%--이름: <input type="text" class="form-control" name="name"/>--%>
+                <%--마을:--%>
+                <%--<select class="form-control" name="village">--%>
+                    <%--<option value="">전체</option>--%>
+                    <%--<c:forEach var="villageList" items="${selectList.villageAllList}">--%>
+                        <%--<option value="${villageList.VILLAGE_SEQ}">${villageList.VILLAGE_NAME}</option>--%>
+                    <%--</c:forEach>--%>
+                <%--</select>--%>
+                <%--직책:--%>
+                <%--<select class="form-control" name="memberPosition">--%>
+                    <%--<option value="">전체</option>--%>
+                    <%--<c:forEach var="codeList" items="${selectList.codeListAA}">--%>
+                        <%--<option value="${codeList.CODE_NO}">${codeList.CODE_NAME}</option>--%>
+                    <%--</c:forEach>--%>
+                <%--</select>--%>
+                <%--<button type="submit" class="btn btn-default">조회</button>  <br><br>--%>
+            <%--</div>--%>
+        <%--</form>--%>
+
         <div class="table-search">
-            <h3 class="panel-title">SegwangYouth Member: ${fn:length(selectList.memberList)}명</h3>
+            <h3 class="panel-title">SegwangYouth Member: ${fn:length(memberList)}명</h3>
             <table class="table table-hover">
                 <thead>
                 <tr class="active">
@@ -109,16 +111,16 @@
                 </tr>
                 </thead>
                 <tbody class="table-search">
-                <c:forEach var="member" items="${selectList.memberList}" varStatus="status">
-                    <tr style="cursor: pointer;" class="memberDetail" value="${member.MEMBER_SEQ}">
+                <c:forEach var="member" items="${memberList}" varStatus="status">
+                    <tr style="cursor: pointer;" class="memberDetail" value="${member.memberSeq}">
                         <td style="width: 30px; color:#ABABAB;">${status.count}</td>
-                        <td>${member.MEMBER_NAME}</td>
-                        <td>${member.MEMBER_GENDER}</td>
-                        <td>${member.MEMBER_BIRTHDAY}</td>
-                        <td>${member.VILLAGE_NAME}</td>
-                        <td>${member.MEMBER_POSITION}</td>
-                        <td>${member.PHONE_NUMBER}</td>
-                        <td>${member.MEMBER_JOB}</td>
+                        <td>${member.memberName}</td>
+                        <td><%--${member.memberGender}--%></td>
+                        <td><%--${member.memberBirthday}--%></td>
+                        <td><%--${member.villageName}--%></td>
+                        <td><%--${member.memberPosition}--%></td>
+                        <td><%--${member.phoneNumber}--%></td>
+                        <td><%--${member.memberjob}--%></td>
                     </tr>
                 </c:forEach>
                 </tbody>
@@ -126,28 +128,28 @@
         </div><!--  class="table-search" -->
     </div> <!-- row -->
 
-    <div class="row">
+    <%--<div class="row">--%>
 
-        <h3 class="panel-title">Member Count</h3>
-        <c:forEach var="total" items="${selectList.statistics}">
-			<span class="villageGroupCountBox">
-				남: ${total.MALE_COUNT}
-			</span>
-            <span class="villageGroupCountBox">
-				여: ${total.FEMALE_COUNT}
-			</span>
-            <span class="villageGroupCountBox">
-				합계: ${total.TOTAL_COUNT}
-			</span>
-        </c:forEach>
-        <br>
-        <c:forEach var="memberCnt" items="${selectList.memberCount}" varStatus="status">
-			<span class="villageGroupCountBox">
-				${memberCnt.VILLAGE_NAME}<c:if test="${status.index != 0}">마을</c:if> : ${memberCnt.VILLAGE_CNT}명
-			</span>
-        </c:forEach>
+        <%--<h3 class="panel-title">Member Count</h3>--%>
+        <%--<c:forEach var="total" items="${selectList.statistics}">--%>
+			<%--<span class="villageGroupCountBox">--%>
+				<%--남: ${total.MALE_COUNT}--%>
+			<%--</span>--%>
+            <%--<span class="villageGroupCountBox">--%>
+				<%--여: ${total.FEMALE_COUNT}--%>
+			<%--</span>--%>
+            <%--<span class="villageGroupCountBox">--%>
+				<%--합계: ${total.TOTAL_COUNT}--%>
+			<%--</span>--%>
+        <%--</c:forEach>--%>
+        <%--<br>--%>
+        <%--<c:forEach var="memberCnt" items="${selectList.memberCount}" varStatus="status">--%>
+			<%--<span class="villageGroupCountBox">--%>
+				<%--${memberCnt.VILLAGE_NAME}<c:if test="${status.index != 0}">마을</c:if> : ${memberCnt.VILLAGE_CNT}명--%>
+			<%--</span>--%>
+        <%--</c:forEach>--%>
 
-    </div>
+    <%--</div> <!-- row -->--%>
 </div>
 
 

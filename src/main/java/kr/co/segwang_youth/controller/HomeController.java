@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class HomeController {
 
     @RequestMapping(method = RequestMethod.GET)
-    public String Home(){
+    public String home(){
 
         return "home";
     }
