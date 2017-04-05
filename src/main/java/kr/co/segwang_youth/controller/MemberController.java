@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by hj on 2017. 3. 31..
@@ -26,12 +25,11 @@ public class MemberController {
     public String search(Model model){
         List<Member> memberList = memberDao.findAll();
         model.addAttribute("memberList",memberList);
-        return "member/search";
+        return "member/member";
     }
 
     @RequestMapping(value="/putMember")
     public String putMember(Member member){
-        member.setRegistDate(new Date());
         return "redirect:/member/detail/"+ memberDao.save(member).getMemberSeq();
     }
 

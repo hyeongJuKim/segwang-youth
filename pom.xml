@@ -83,6 +83,18 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+
+			<!-- H2 DB 접속-->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<configuration>
+					<mainClass>org.h2.tools.Console</mainClass>
+					<arguments>
+						<argument>-browser</argument>
+					</arguments>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 

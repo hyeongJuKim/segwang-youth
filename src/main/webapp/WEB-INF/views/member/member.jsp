@@ -116,7 +116,7 @@
                         <td style="width: 30px; color:#ABABAB;">${status.count}</td>
                         <td>${member.memberName}</td>
                         <td><%--${member.memberGender}--%></td>
-                        <td><%--${member.memberBirthday}--%></td>
+                        <td>${member.memberBirthday}</td>
                         <td><%--${member.villageName}--%></td>
                         <td><%--${member.memberPosition}--%></td>
                         <td><%--${member.phoneNumber}--%></td>
