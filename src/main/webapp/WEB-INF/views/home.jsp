@@ -13,4 +13,9 @@
 </head>
 <body>
 
+<div>SG-Youth-Management</div>
+<div>메뉴</div>
+<div><a href="attendance/">출석</a></div>
+<div><a href="member/">청년조회</a></div>
+
 <jsp:include page="/WEB-INF/views/include/layoutBottom.jsp" flush="true" />

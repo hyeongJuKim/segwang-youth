@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- Log message format -->
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT" />
+    </root>
+
+    <logger name="jdbc.audit" level="DEBUG" />
+    <logger name="jdbc.connection" level="DEBUG" />
+    <logger name="jdbc.sqltiming" level="DEBUG" />
+    <logger name="jdbc.resultset" level="DEBUG" />
+
+    <!-- UNCOMMENT THE BELOW TO HIDE THE RESULT SET TABLE OUTPUT -->
+    <logger name="jdbc.resultsettable" level="DEBUG" />
+
+
+
+
+</configuration>
+

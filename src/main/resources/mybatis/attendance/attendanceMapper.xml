@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.segwang_youth.attendance.dao.AttendanceMapper">
+
+    <select id="villageSeqList" parameterType="hashMap" resultType="java.util.Map">
+        SELECT VILLAGE_SEQ
+             , CONCAT(VILLAGE_NAME,'마을') AS VILLAGE_NAME
+          FROM VILLAGE
+        ORDER BY VILLAGE_SEQ ASC
+    </select>
+
+    <select id="villageMemberCount" parameterType="hashMap" resultType="java.util.Map">
+        SELECT VILLAGE_SEQ
+        , CONCAT(VILLAGE_NAME,'마을') AS VILLAGE_NAME
+        FROM VILLAGE
+        ORDER BY VILLAGE_SEQ ASC
+    </select>
+
+    <select id="attendance" parameterType="hashMap" resultType="hashMap">
+        SELECT M.MEMBER_SEQ,
+               M.MEMBER_NAME,
+               M.MEMBER_BIRTHDAY,
+               A.ATTENDANCE_YN,
+               CONCAT(V.VILLAGE_NAME, '마을') AS VILLAGE_NAME
+          FROM MEMBER M
+        INNER JOIN (SELECT VILLAGE_SEQ,VILLAGE_NAME
+        FROM VILLAGE
+        WHERE VILLAGE_SEQ = #{villageSeq}) V ON M.VILLAGE_SEQ = V.VILLAGE_SEQ
+        LEFT OUTER JOIN  (SELECT MEMBER_SEQ, ATTENDANCE_YN
+                            FROM ATTENDANCE
+                           WHERE ATTENDANCE_DATE = #{attendanceDate}) A
+        ON M.MEMBER_SEQ = A.MEMBER_SEQ
+        WHERE M.MEMBER_POSITION = '02'
+        UNION
+        SELECT *
+         FROM (
+                SELECT M.MEMBER_SEQ,
+                       M.MEMBER_NAME,
+                       M.MEMBER_BIRTHDAY,
+                       A.ATTENDANCE_YN,
+                       CONCAT(V.VILLAGE_NAME, '마을') AS VILLAGE_NAME
+                  FROM MEMBER M
+                INNER JOIN (SELECT VILLAGE_SEQ, VILLAGE_NAME
+                              FROM VILLAGE
+                              WHERE VILLAGE_SEQ = #{villageSeq}) V ON M.VILLAGE_SEQ = V.VILLAGE_SEQ
+                LEFT OUTER JOIN  (SELECT MEMBER_SEQ, ATTENDANCE_YN
+                FROM ATTENDANCE
+                WHERE ATTENDANCE_DATE = #{attendanceDate}) A
+                ON M.MEMBER_SEQ = A.MEMBER_SEQ
+                WHERE M.MEMBER_POSITION != '02'
+                ORDER BY M.MEMBER_NAME ASC
+            ) MEM
+    </select>
+
+
+
+    <!--<select id="check" parameterType="hashMap" resultType="int">-->
+        <!--SELECT count(ATTENDANCE_DATE)-->
+          <!--FROM ATTENDANCE-->
+         <!--WHERE ATTENDANCE_DATE = #{attendanceDate}-->
+           <!--AND MEMBER_SEQ = #{memberSeq}-->
+    <!--</select>-->
+
+    <insert id ="insertAttendanceMember" parameterType="java.util.Map">
+        INSERT INTO ATTENDANCE(
+          ATTENDANCE_DATE,
+          MEMBER_SEQ,
+          ATTENDANCE_YN
+        ) VALUE (
+          #{attendanceDate},
+          #{memberSeq},
+          'Y'
+        )
+    </insert>
+
+    <delete id="deleteAttendanceMember" parameterType="java.util.Map">
+        DELETE FROM ATTENDANCE
+        WHERE ATTENDANCE_DATE = #{attendanceDate}
+          AND MEMBER_SEQ = #{memberSeq}
+    </delete>
+
+
+
+
+
+</mapper>

@@ -1,6 +1,6 @@
 package kr.co.segwang_youth.controller;
 
-import kr.co.segwang_youth.dao.MemberDao;
+//import kr.co.segwang_youth.dao.MemberDao;
 import kr.co.segwang_youth.model.entity.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,8 +23,8 @@ public class MemberController {
 
     @RequestMapping(value="")
     public String search(Model model){
-        List<Member> memberList = memberDao.findAll();
-        model.addAttribute("memberList",memberList);
+//        List<Member> memberList = memberDao.findAll();
+//        model.addAttribute("memberList",memberList);
         return "member/member";
     }
 

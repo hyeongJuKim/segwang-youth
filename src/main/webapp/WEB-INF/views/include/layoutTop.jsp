@@ -23,7 +23,15 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
-    <!-- Custom CSS -->
+<!-- air-datepicker -->
+<link href="/air-datepicker/css/datepicker.css" rel="stylesheet" type="text/css">
+<script src="/air-datepicker/js/datepicker.js"></script>
+
+<!-- Include English language -->
+<script src="/air-datepicker/js/i18n/datepicker.ko.js"></script>
+
+
+<!-- Custom CSS -->
 <link rel="stylesheet" th:src="@{/js/css/segwang-youth.css}">
 
 
