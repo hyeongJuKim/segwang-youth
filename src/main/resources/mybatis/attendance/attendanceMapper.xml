@@ -10,11 +10,22 @@
         ORDER BY VILLAGE_SEQ ASC
     </select>
 
-    <select id="villageMemberCount" parameterType="hashMap" resultType="java.util.Map">
-        SELECT VILLAGE_SEQ
-        , CONCAT(VILLAGE_NAME,'마을') AS VILLAGE_NAME
-        FROM VILLAGE
-        ORDER BY VILLAGE_SEQ ASC
+        <select id="villageMemberCount" parameterType="hashMap" resultType="java.util.Map">
+        SELECT VILLAGE_COUNT
+             , TOTAL_COUNT
+          FROM (SELECT COUNT(M.MEMBER_NAME) AS VILLAGE_COUNT
+                  FROM ATTENDANCE A, MEMBER M,VILLAGE V
+                 WHERE A.ATTENDANCE_YN ='Y'
+                   AND V.VILLAGE_SEQ = #{villageSeq}
+                   AND A.MEMBER_SEQ = M.MEMBER_SEQ
+                   AND V.VILLAGE_SEQ = M.VILLAGE_SEQ
+                   AND A.ATTENDANCE_DATE = #{attendanceDate}) A,
+               (SELECT COUNT(M.MEMBER_NAME) AS TOTAL_COUNT
+                  FROM ATTENDANCE A, MEMBER M,VILLAGE V
+                 WHERE A.ATTENDANCE_YN ='Y'
+                   AND A.MEMBER_SEQ = M.MEMBER_SEQ
+                   AND V.VILLAGE_SEQ = M.VILLAGE_SEQ
+                   AND A.ATTENDANCE_DATE = #{attendanceDate}) B
     </select>
 
     <select id="attendance" parameterType="hashMap" resultType="hashMap">
@@ -32,6 +43,8 @@
                            WHERE ATTENDANCE_DATE = #{attendanceDate}) A
         ON M.MEMBER_SEQ = A.MEMBER_SEQ
         WHERE M.MEMBER_POSITION = '02'
+
+          AND M.REGIST_TS <![CDATA[ <= ]]> #{attendanceDate}
         UNION
         SELECT *
          FROM (
@@ -49,6 +62,7 @@
                 WHERE ATTENDANCE_DATE = #{attendanceDate}) A
                 ON M.MEMBER_SEQ = A.MEMBER_SEQ
                 WHERE M.MEMBER_POSITION != '02'
+                  AND M.REGIST_TS <![CDATA[ <= ]]> #{attendanceDate}
                 ORDER BY M.MEMBER_NAME ASC
             ) MEM
     </select>

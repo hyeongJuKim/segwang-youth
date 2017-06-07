@@ -24,5 +24,5 @@ public interface AttendanceMapper {
 
     void deleteAttendanceMember(Map attendanceMember);
 
-    int villageMemberCount(Map attendanceMember);
+    Map villageMemberCount(Map attendanceMember);
 }

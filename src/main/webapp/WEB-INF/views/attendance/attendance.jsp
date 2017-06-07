@@ -45,10 +45,12 @@ $(document).ready(function() {
         $("input[class='attendance-checkbox']").click(function() {
             var attendanceDate = $("#attendance-date").val();
             var villageSeq = $(this).attr("village_seq");
-            console.log(villageSeq);
+            console.log("initCheckboxHandler :" + this.id);
             saveAttendance(this.id, this.checked,attendanceDate,villageSeq);
         });
     };
+
+
 
     function saveAttendance(memberSeq,checked,attendanceDate,villageSeq){
         $.ajax({
@@ -57,7 +59,10 @@ $(document).ready(function() {
             data: {"memberSeq":memberSeq, "attendanceYn": checked, "attendanceDate": attendanceDate,"villageSeq":villageSeq},
             dataType: "json",
             success: function(data){
-                console.log("save success");
+                console.log("save attendacee success");
+                var villageId = ('#village-' + data.villageSeq);
+                $(villageId).find($('.village-attendance-count')).html(data.VILLAGE_COUNT);
+                $('#total-count').html(data.TOTAL_COUNT);
             },
             error: function(error,data){
                 alert("오류가 발생했습니다."+ error.status);
@@ -79,8 +84,10 @@ $(document).ready(function() {
     <div class="row">
         <table class="table-total-count" style="border: 1px solid black ; float: left;">
             <tr>
-                <td>출석</td>
-                <td>00명 / ${vaiilage}명</td>
+                <td>출석 </td>
+                <td>
+                    <span id="total-count"> ${attendance.totalAttendanceCount}</span> / ${attendance.totalMemberCount}명
+                </td>
             </tr>
         </table>
         <form id="calendarForm">
@@ -88,8 +95,8 @@ $(document).ready(function() {
                    id ="attendance-date"
                    class="datepicker-here attendance-datepicker"
                    data-position="bottom left"
-                   data-language='ko'/>
-            <input type="button" value="조회" />
+                   data-language='ko'
+                   readonly />
         </form>
     </div>
 
@@ -98,7 +105,7 @@ $(document).ready(function() {
         <div class="div-villages">
 
             <c:forEach var="village" items="${attendance.villageList}">
-            <table class="table-village" style="border: 1px solid black ; float: left;">
+            <table id ="village-${village.villageSeq}" class="table-village" style="border: 1px solid black ; float: left;">
                 <tr>
                     <td colspan="2" class="village-name">
                         ${village.villageName}
@@ -108,19 +115,17 @@ $(document).ready(function() {
                 <tr>
                     <td><span>${member.MEMBER_NAME}</span></td>
                     <td>
-                        <span>
-                            <input id="${member.MEMBER_SEQ}"
-                                   class="attendance-checkbox"
-                                   type="checkbox"
-                                   village_seq="${village.villageSeq}"
-                                   ${member.ATTENDANCE_YN eq "Y" ? "checked" : " "}>
-                        </span>
+                        <input id="${member.MEMBER_SEQ}"
+                               class="attendance-checkbox"
+                               type="checkbox"
+                               village_seq="${village.villageSeq}"
+                               ${member.ATTENDANCE_YN eq "Y" ? "checked" : " "}>
                     </td>
                 </tr>
                 </c:forEach>
                 <tr>
                     <td colspan="2">
-                        ${village.attendanceCount} / ${fn:length(village.villageMember)}명
+                        <span class="village-attendance-count">${village.attendanceCount}</span> / <span class="village-all-count">${fn:length(village.villageMember)}</span>명
                     </td>
                 </tr>
             </table>

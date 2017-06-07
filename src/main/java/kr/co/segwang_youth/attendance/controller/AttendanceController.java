@@ -1,6 +1,7 @@
 package kr.co.segwang_youth.attendance.controller;
 
 import com.google.gson.Gson;
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import kr.co.segwang_youth.attendance.service.AttendanceService;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.slf4j.Logger;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,11 +31,18 @@ public class AttendanceController {
 
     @RequestMapping(value="")
     public String attendance(Model model,HttpServletRequest request){
-        Map attendance = service.attendance(request.getParameter("attendanceDate"));
+        String attendanceDate = request.getParameter("attendanceDate");
+        if (attendanceDate == null)
+            System.out.println("isEmpty");//TODO : dateUtils!
+
+
+        Map attendance = service.attendance(attendanceDate);
         model.addAttribute("attendance",attendance);
 
         return "attendance/attendance";
     }
+
+
 
     @RequestMapping(value = "check", method= RequestMethod.POST, produces="text/plain; charset=UTF-8")
     @ResponseBody
@@ -42,10 +52,14 @@ public class AttendanceController {
         attendanceMember.put("attendanceYn",request.getParameter("attendanceYn"));
         attendanceMember.put("attendanceDate",request.getParameter("attendanceDate"));
         attendanceMember.put("villageSeq",request.getParameter("villageSeq"));
-        service.attendanceMember(attendanceMember);
+
+        Map resultCheckMember = service.attendanceMember(attendanceMember);
+        resultCheckMember.put("villageSeq",request.getParameter("villageSeq"));
+        resultCheckMember.put("memberSeq",request.getParameter("memberSeq"));
 
         Gson gson = new Gson();
-        String json = gson.toJson("성공");
+        String json = gson.toJson(resultCheckMember);
+        System.out.println("json" + json);
 
         return json;
     }

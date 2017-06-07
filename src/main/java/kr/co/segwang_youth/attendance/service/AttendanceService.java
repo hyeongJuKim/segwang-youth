@@ -15,13 +15,19 @@ public class AttendanceService{
     @Autowired
     public AttendanceMapper mapper;
 
+    /**
+     * 해당 일의 출석 현황 조회
+     * @param attendanceDate
+     * @return
+     */
     public Map attendance(String attendanceDate){
         Map attendance = new HashMap(); // controller return Map
 
         List<Map> villageSeqList = mapper.villageSeqList();
 
         List villageList = new ArrayList();
-        int totalMemberCount = 0;
+        int totalMemberCount = 0;       // 전체 회원
+        int totalAttendanceCount = 0;   // 전체 중 출석한 인원
 
         for(Map vil:villageSeqList){
             Map village = new HashMap();
@@ -36,45 +42,39 @@ public class AttendanceService{
 
             attendanceCount = 0;
             for (Map members:villageMember){
-                if ("Y".equals(members.get("ATTENDANCE_YN")))
-                    attendanceCount++;
+                if ("Y".equals(members.get("ATTENDANCE_YN"))) {
+                    attendanceCount++;  // 해당 마을 출석
+                    totalAttendanceCount++; // 모든 마을 출석 인원
+                }
+                totalMemberCount++;
             }
+
 
             village.put("villageSeq",vil.get("VILLAGE_SEQ"));
             village.put("villageName",vil.get("VILLAGE_NAME"));
             village.put("villageMember", villageMember);
             village.put("attendanceCount", attendanceCount);
-
             villageList.add(village);
-            totalMemberCount += villageMember.size();
-
         }
+
         attendance.put("villageList",villageList);
         attendance.put("totalMemberCount",totalMemberCount);
+        attendance.put("totalAttendanceCount",totalAttendanceCount);
 
         return attendance;
     }
 
     /**
-     * 선택한 회원을 출석/비출석 한다/
-     *
+     * 선택한 회원을 출석/비출석 한다
      * @param attendanceMember
      */
-    public int attendanceMember(Map attendanceMember) {
+    public Map attendanceMember(Map attendanceMember) {
         if ("true".equals(attendanceMember.get("attendanceYn")))
             mapper.insertAttendanceMember(attendanceMember);
         else
             mapper.deleteAttendanceMember(attendanceMember);
 
-
-        //마을 출석
-        mapper.villageMemberCount(attendanceMember);
-        //전체 출석
-
-
-        // village Seq
-        //해당 마을 출석 전체 출석 변경해야함
-    return 0;
+    return mapper.villageMemberCount(attendanceMember);
     }
 
 

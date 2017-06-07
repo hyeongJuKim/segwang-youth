@@ -32,6 +32,6 @@
 
 
 <!-- Custom CSS -->
-<link rel="stylesheet" th:src="@{/js/css/segwang-youth.css}">
+<link href="/css/segwang-youth.css" rel="stylesheet" type="text/css">
 
 
