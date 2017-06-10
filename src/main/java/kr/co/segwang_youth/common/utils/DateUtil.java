@@ -1,5 +1,6 @@
 package kr.co.segwang_youth.common.utils;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -8,7 +9,7 @@ import java.util.Date;
  */
 public class DateUtil {
 
-//    public final static int DAY_OF_WEEK_IN_SUNDAY = 0;
+    protected int fields[];
 
     public final static int SUNDAY = 1;
 
@@ -40,8 +41,21 @@ public class DateUtil {
         cal.setTime(new Date());
         while (cal.get(Calendar.DAY_OF_WEEK) != day)
             cal.add(Calendar.DATE,-1);
-        
+
         return cal.getTime();
     }
+
+
+    /**
+     * 날짜 타입을 문자열 타입으로 변환.
+     * (메서드를 사용하지 않아도 코드가 많이 짧을 것 같아서 보류.)
+     * @param date
+     */
+    public static String convertDateToString(Date date){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        return dateFormat.format(date);
+    };
+
+
 }
 

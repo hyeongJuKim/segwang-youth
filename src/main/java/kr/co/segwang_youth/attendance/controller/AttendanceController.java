@@ -3,6 +3,7 @@ package kr.co.segwang_youth.attendance.controller;
 import com.google.gson.Gson;
 import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import kr.co.segwang_youth.attendance.service.AttendanceService;
+import kr.co.segwang_youth.common.utils.DateUtil;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,9 +34,11 @@ public class AttendanceController {
     @RequestMapping(value="")
     public String attendance(Model model,HttpServletRequest request){
         String attendanceDate = request.getParameter("attendanceDate");
-        if (attendanceDate == null)
-            System.out.println("isEmpty");//TODO : dateUtils!
-
+        if (attendanceDate == null) {
+            Date date = DateUtil.calcLastDateInWant(Calendar.SUNDAY);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            attendanceDate = dateFormat.format(date);
+        }
 
         Map attendance = service.attendance(attendanceDate);
         model.addAttribute("attendance",attendance);

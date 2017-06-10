@@ -16,6 +16,7 @@ $(document).ready(function() {
     initCheckboxHandler();
 
     $('#attendance-date').val("${attendanceDate}");
+    console.log("javascript load :  " + "${attendanceDate}");
 
     function initDatepicker(){
         var disabledDays = [1, 2, 3, 4, 5];
@@ -30,7 +31,7 @@ $(document).ready(function() {
                     }
                 }
             },
-            onSelect: function onSelect(fd, date) {
+            onSelect: function onSelect(fd) {
                 console.log("onSelect" + "${attendanceDate}");
                 document.getElementById("calendarForm").method = "GET";
                 document.getElementById("calendarForm").action = "${pageContext.request.contextPath}/attendance/" + fd;
@@ -45,7 +46,7 @@ $(document).ready(function() {
         $("input[class='attendance-checkbox']").click(function() {
             var attendanceDate = $("#attendance-date").val();
             var villageSeq = $(this).attr("village_seq");
-            console.log("initCheckboxHandler :" + this.id);
+            console.log("initCheckboxHandler checked id: " + this.id);
             saveAttendance(this.id, this.checked,attendanceDate,villageSeq);
         });
     };

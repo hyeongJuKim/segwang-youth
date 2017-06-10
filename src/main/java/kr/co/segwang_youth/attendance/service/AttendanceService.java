@@ -1,13 +1,12 @@
 package kr.co.segwang_youth.attendance.service;
 
 import kr.co.segwang_youth.attendance.dao.AttendanceMapper;
+import kr.co.segwang_youth.common.utils.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service
 public class AttendanceService{
@@ -22,7 +21,6 @@ public class AttendanceService{
      */
     public Map attendance(String attendanceDate){
         Map attendance = new HashMap(); // controller return Map
-
         List<Map> villageSeqList = mapper.villageSeqList();
 
         List villageList = new ArrayList();
