@@ -32,12 +32,10 @@ public class AttendanceService{
             Map attendanceMap = new HashMap();
 
             int attendanceCount = 0;
-
             attendanceMap.put("villageSeq", vil.get("VILLAGE_SEQ"));
             attendanceMap.put("attendanceDate",attendanceDate);
 
             List<Map> villageMember = mapper.attendance(attendanceMap);
-
             attendanceCount = 0;
             for (Map members:villageMember){
                 if ("Y".equals(members.get("ATTENDANCE_YN"))) {
@@ -46,7 +44,6 @@ public class AttendanceService{
                 }
                 totalMemberCount++;
             }
-
 
             village.put("villageSeq",vil.get("VILLAGE_SEQ"));
             village.put("villageName",vil.get("VILLAGE_NAME"));
@@ -58,6 +55,7 @@ public class AttendanceService{
         attendance.put("villageList",villageList);
         attendance.put("totalMemberCount",totalMemberCount);
         attendance.put("totalAttendanceCount",totalAttendanceCount);
+        attendance.put("attendanceDate",attendanceDate);
 
         return attendance;
     }

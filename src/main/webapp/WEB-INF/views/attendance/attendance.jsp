@@ -15,11 +15,12 @@ $(document).ready(function() {
     initDatepicker();
     initCheckboxHandler();
 
-    $('#attendance-date').val("${attendanceDate}");
-    console.log("javascript load :  " + "${attendanceDate}");
+    $('#attendance-date').val("${attendance.attendanceDate}");
+
+
 
     function initDatepicker(){
-        var disabledDays = [1, 2, 3, 4, 5];
+        var disabledDays = [1, 2, 3, 4, 5, 6];
         $('.attendance-datepicker').datepicker({
             autoClose: true,
             onRenderCell: function (date, cellType) {
@@ -31,12 +32,12 @@ $(document).ready(function() {
                     }
                 }
             },
-            onSelect: function onSelect(fd) {
-                console.log("onSelect" + "${attendanceDate}");
+            onSelect: function onSelect(date) {
+                if(!isCheckValidDay(date))
+                    return;
                 document.getElementById("calendarForm").method = "GET";
-                document.getElementById("calendarForm").action = "${pageContext.request.contextPath}/attendance/" + fd;
+                document.getElementById("calendarForm").action = "${pageContext.request.contextPath}/attendance/" + date;
                 document.getElementById("calendarForm").submit();
-
             }
 
         })
@@ -73,6 +74,17 @@ $(document).ready(function() {
     };
 
 
+
+    function isCheckValidDay(fd){
+        var selectDay = new Date(fd).getDay();
+        if (selectDay !== 0) {
+            alert("선택한 날짜가 일요일이 아닙니다! 다시 선택해주세요.");
+            return false;
+        }
+        return true;
+    }
+
+
 });
 </script>
 
@@ -83,14 +95,10 @@ $(document).ready(function() {
 <div class="container">
 
     <div class="row">
-        <table class="table-total-count" style="border: 1px solid black ; float: left;">
-            <tr>
-                <td>출석 </td>
-                <td>
-                    <span id="total-count"> ${attendance.totalAttendanceCount}</span> / ${attendance.totalMemberCount}명
-                </td>
-            </tr>
-        </table>
+        <span>
+            출석 <span class="badge">${attendance.totalAttendanceCount}</span> / <span class="badge">${attendance.totalMemberCount}</span>
+        </span>
+
         <form id="calendarForm">
             <input type='text'
                    id ="attendance-date"
@@ -103,14 +111,13 @@ $(document).ready(function() {
 
     <div class="row">
 
-        <div class="div-villages">
-
-            <c:forEach var="village" items="${attendance.villageList}">
-            <table id ="village-${village.villageSeq}" class="table-village" style="border: 1px solid black ; float: left;">
+        <c:forEach var="village" items="${attendance.villageList}">
+        <div class="div-villages col-md-2 col-xs-4">
+            <table id ="village-${village.villageSeq}" class="table-village table table-hover table-condensed">
                 <tr>
-                    <td colspan="2" class="village-name">
+                    <th colspan="2" class="village-name">
                         ${village.villageName}
-                    </td>
+                    </th>
                 </tr>
                 <c:forEach var="member" items="${village.villageMember}">
                 <tr>
@@ -130,8 +137,8 @@ $(document).ready(function() {
                     </td>
                 </tr>
             </table>
-            </c:forEach>
         </div><!-- div-villages -->
+        </c:forEach>
 
     </div> <!-- row -->
 

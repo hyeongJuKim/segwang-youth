@@ -12,10 +12,14 @@
 <title>세광청년부</title>
 </head>
 <body>
+<div class="container">
+    <div class="row">
+        <div>SG-Youth-Management</div>
 
-<div>SG-Youth-Management</div>
-<div>메뉴</div>
-<div><a href="attendance/">출석</a></div>
-<div><a href="member/">청년조회</a></div>
+        <div><a href="attendance/">출석관리</a></div>
+        <div><a href="member/">청년관리</a></div>
+    </div>
 
+
+</div>
 <jsp:include page="/WEB-INF/views/include/layoutBottom.jsp" flush="true" />
