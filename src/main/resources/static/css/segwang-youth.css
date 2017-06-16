@@ -21,6 +21,11 @@ textarea {
     overflow: scroll;
 }
 
+.no-padding {
+	padding: 0 !important;
+	margin: 0 !important;
+}
+
 /*.villageGroupCountBox {*/
 	/*display: inline-block;*/
     /*padding: 6px 12px;*/

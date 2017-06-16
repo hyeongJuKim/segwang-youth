@@ -14,8 +14,7 @@
 <body>
 <div class="container">
     <div class="row">
-        <div>SG-Youth-Management</div>
-
+        <div>세광청년공동체</div>
         <div><a href="attendance/">출석관리</a></div>
         <div><a href="member/">청년관리</a></div>
     </div>

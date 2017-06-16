@@ -92,28 +92,32 @@ $(document).ready(function() {
 </head>
 <body>
 
-<div class="container">
+<div class="container-fluid">
 
-    <div class="row">
-        <span>
-            출석 <span class="badge">${attendance.totalAttendanceCount}</span> / <span class="badge">${attendance.totalMemberCount}</span>
-        </span>
+    <div class="row col-md-12">
 
-        <form id="calendarForm">
-            <input type='text'
-                   id ="attendance-date"
-                   class="datepicker-here attendance-datepicker"
-                   data-position="bottom left"
-                   data-language='ko'
-                   readonly />
+        <form id="calendarForm" class="form-inline">
+            <div class="form-group">
+                <span>
+                    출석 ${attendance.totalAttendanceCount} / ${attendance.totalMemberCount}
+                </span>
+                <label for="attendance-date">조회</label>
+                <input type='text'
+                       id ="attendance-date"
+                       class="datepicker-here attendance-datepicker form-control"
+                       data-position="bottom left"
+                       data-language='ko'
+                       readonly />
+            </div>
         </form>
     </div>
+
 
     <div class="row">
 
         <c:forEach var="village" items="${attendance.villageList}">
-        <div class="div-villages col-md-2 col-xs-4">
-            <table id ="village-${village.villageSeq}" class="table-village table table-hover table-condensed">
+        <div class="div-villages col-md-2 col-xs-4 no-padding">
+            <table id ="village-${village.villageSeq}" class="table-village table table-hover table-condensed table-bordered">
                 <tr>
                     <th colspan="2" class="village-name">
                         ${village.villageName}
