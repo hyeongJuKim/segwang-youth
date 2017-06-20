@@ -42,31 +42,10 @@
                             FROM ATTENDANCE
                            WHERE ATTENDANCE_DATE = #{attendanceDate}) A
         ON M.MEMBER_SEQ = A.MEMBER_SEQ
-        WHERE M.MEMBER_POSITION = '02'
-
-          AND M.REGIST_TS <![CDATA[ <= ]]> #{attendanceDate}
-        UNION
-        SELECT *
-         FROM (
-                SELECT M.MEMBER_SEQ,
-                       M.MEMBER_NAME,
-                       M.MEMBER_BIRTHDAY,
-                       A.ATTENDANCE_YN,
-                       CONCAT(V.VILLAGE_NAME, '마을') AS VILLAGE_NAME
-                  FROM MEMBER M
-                INNER JOIN (SELECT VILLAGE_SEQ, VILLAGE_NAME
-                              FROM VILLAGE
-                              WHERE VILLAGE_SEQ = #{villageSeq}) V ON M.VILLAGE_SEQ = V.VILLAGE_SEQ
-                LEFT OUTER JOIN  (SELECT MEMBER_SEQ, ATTENDANCE_YN
-                FROM ATTENDANCE
-                WHERE ATTENDANCE_DATE = #{attendanceDate}) A
-                ON M.MEMBER_SEQ = A.MEMBER_SEQ
-                WHERE M.MEMBER_POSITION != '02'
-                  AND M.REGIST_TS <![CDATA[ <= ]]> #{attendanceDate}
-                ORDER BY M.MEMBER_NAME ASC
-            ) MEM
+     WHERE M.MEMBER_POSITION IN ('02','01')
+       AND DATE_FORMAT(M.FIRST_ATTENDANCE_DATE, '%Y-%m-%d') <![CDATA[ <= ]]> #{attendanceDate}
+     ORDER BY field(MEMBER_POSITION,'02') DESC, MEMBER_NAME
     </select>
-
 
 
     <!--<select id="check" parameterType="hashMap" resultType="int">-->

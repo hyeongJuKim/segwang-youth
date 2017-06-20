@@ -1,6 +1,7 @@
 package kr.co.segwang_youth.attendance.service;
 
 import kr.co.segwang_youth.attendance.dao.AttendanceMapper;
+import kr.co.segwang_youth.common.dao.CommonCodeMapper;
 import kr.co.segwang_youth.common.utils.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,9 @@ public class AttendanceService{
 
     @Autowired
     public AttendanceMapper mapper;
+
+    @Autowired
+    public CommonCodeMapper commonCodeMapper;
 
     /**
      * 해당 일의 출석 현황 조회
@@ -52,6 +56,10 @@ public class AttendanceService{
             villageList.add(village);
         }
 
+        // 공통 코드 조회
+        List<Map> codeListAF = commonCodeMapper.selectCodeList("AF");	// 성별 코드 조회
+
+        attendance.put("codeListAF",codeListAF);
         attendance.put("villageList",villageList);
         attendance.put("totalMemberCount",totalMemberCount);
         attendance.put("totalAttendanceCount",totalAttendanceCount);

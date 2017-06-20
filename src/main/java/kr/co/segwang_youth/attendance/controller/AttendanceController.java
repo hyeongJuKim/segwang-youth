@@ -31,6 +31,10 @@ public class AttendanceController {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    /**
+     * 화면 최조 진입.
+     * 날짜 입력이 없을 때 오늘로부터 가장 가까운 일요일의 출석을 조회.
+     */
     @RequestMapping(value="")
     public String attendance(Model model,HttpServletRequest request){
         String attendanceDate = request.getParameter("attendanceDate");
@@ -68,6 +72,9 @@ public class AttendanceController {
         return json;
     }
 
+    /**
+     * 날짜입력을 받아 출석을 조회.
+     */
     @RequestMapping(value="{attendanceDate}",  method = {RequestMethod.GET})
     public String attendanceDate(Model model,@PathVariable("attendanceDate") String attendanceDate){
         Map attendance = service.attendance(attendanceDate);
@@ -75,6 +82,12 @@ public class AttendanceController {
         model.addAttribute("attendanceDate",attendanceDate);
 
         return "attendance/attendance";
+    }
+
+    @RequestMapping(value = "newMember",method = {RequestMethod.POST})
+    public String newMember(Model model, HttpServletRequest request){
+        System.out.println("newMember");
+        return "redirect:";
     }
 
 }

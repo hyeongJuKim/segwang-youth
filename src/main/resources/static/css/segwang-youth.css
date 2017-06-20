@@ -8,7 +8,7 @@ body{
 
 
 th {
-	background: #f6f6f6;	
+	background: #f6f6f6;
 }
 
 textarea {
@@ -19,6 +19,12 @@ textarea {
 .table-search{
     height: 420px !important;
     overflow: scroll;
+}
+
+
+.row-margin {
+	margin-top: 10px;
+	margin-bottom: 10px;
 }
 
 .no-padding {
