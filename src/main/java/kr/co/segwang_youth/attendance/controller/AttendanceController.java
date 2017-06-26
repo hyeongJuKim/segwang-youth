@@ -3,6 +3,7 @@ package kr.co.segwang_youth.attendance.controller;
 import com.google.gson.Gson;
 import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import kr.co.segwang_youth.attendance.service.AttendanceService;
+import kr.co.segwang_youth.common.utils.ConvertUtil;
 import kr.co.segwang_youth.common.utils.DateUtil;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.slf4j.Logger;
@@ -12,12 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by hj on 2017. 3. 31..
@@ -84,9 +83,29 @@ public class AttendanceController {
         return "attendance/attendance";
     }
 
+    /**
+     * 출석View에서 임시로 신규회원 등록.
+     * @return
+     */
     @RequestMapping(value = "newMember",method = {RequestMethod.POST})
-    public String newMember(Model model, HttpServletRequest request){
-        System.out.println("newMember");
+    public String newMember(HttpServletRequest request,RedirectAttributes redirectAttributes){
+        Map map = ConvertUtil.convertRequestGetParamToMap(request);
+        service.insertSimplyMember(map);
+        redirectAttributes.addAttribute("attendanceDate",map.get("firstAttendanceDate"));
+        System.out.println("attendance Date : " + map.get("firstAttendanceDate"));
+        return "redirect:";
+    }
+
+    /**
+     * 출석View에서 신규회원 삭제.
+     * @return
+     */
+    @RequestMapping(value = "deleteMember",method = {RequestMethod.POST})
+    public String deleteMember(HttpServletRequest request,RedirectAttributes redirectAttributes){
+        String memberSeq = request.getParameter("memberSeq");
+        String attendanceDate = request.getParameter("attendanceDate");
+        service.deleteSimplyMember(memberSeq);
+        redirectAttributes.addAttribute("attendanceDate",attendanceDate);
         return "redirect:";
     }
 

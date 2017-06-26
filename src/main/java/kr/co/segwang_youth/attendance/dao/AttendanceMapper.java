@@ -25,4 +25,10 @@ public interface AttendanceMapper {
     void deleteAttendanceMember(Map attendanceMember);
 
     Map villageMemberCount(Map attendanceMember);
+
+    void insertSimplyMember(Map map);
+
+    void deleteMember(String memberSeq);
+
+    void deleteAllAttendanceToMember(String memberSeq);
 }

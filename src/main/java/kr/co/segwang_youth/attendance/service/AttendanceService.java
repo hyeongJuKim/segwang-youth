@@ -3,6 +3,7 @@ package kr.co.segwang_youth.attendance.service;
 import kr.co.segwang_youth.attendance.dao.AttendanceMapper;
 import kr.co.segwang_youth.common.dao.CommonCodeMapper;
 import kr.co.segwang_youth.common.utils.DateUtil;
+import org.apache.taglibs.standard.tag.el.sql.SetDataSourceTag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -58,7 +59,6 @@ public class AttendanceService{
 
         // 공통 코드 조회
         List<Map> codeListAF = commonCodeMapper.selectCodeList("AF");	// 성별 코드 조회
-
         attendance.put("codeListAF",codeListAF);
         attendance.put("villageList",villageList);
         attendance.put("totalMemberCount",totalMemberCount);
@@ -77,9 +77,23 @@ public class AttendanceService{
             mapper.insertAttendanceMember(attendanceMember);
         else
             mapper.deleteAttendanceMember(attendanceMember);
-
     return mapper.villageMemberCount(attendanceMember);
     }
 
+    /**
+     * 신규 회원 기본정보 입력.
+     * @param map
+     */
+    public void insertSimplyMember(Map map) {
+        mapper.insertSimplyMember(map);
+    }
 
+    /**
+     * 신규회원 삭제 (출석화면에서)
+     * @param memberSeq
+     */
+    public void deleteSimplyMember(String memberSeq) {
+        mapper.deleteMember(memberSeq);
+        mapper.deleteAllAttendanceToMember(memberSeq);
+    }
 }

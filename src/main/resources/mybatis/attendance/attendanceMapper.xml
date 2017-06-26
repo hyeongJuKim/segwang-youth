@@ -33,7 +33,8 @@
                M.MEMBER_NAME,
                M.MEMBER_BIRTHDAY,
                A.ATTENDANCE_YN,
-               CONCAT(V.VILLAGE_NAME, '마을') AS VILLAGE_NAME
+               CONCAT(V.VILLAGE_NAME, '마을') AS VILLAGE_NAME,
+               MEMBER_GENDER
           FROM MEMBER M
         INNER JOIN (SELECT VILLAGE_SEQ,VILLAGE_NAME
         FROM VILLAGE
@@ -67,11 +68,40 @@
         )
     </insert>
 
+    <insert id="insertSimplyMember" parameterType="java.util.Map">
+        INSERT INTO MEMBER(
+          MEMBER_NAME,
+          MEMBER_GENDER,
+          PHONE_NUMBER,
+          REMARK,
+          FIRST_ATTENDANCE_DATE,
+          MEMBER_POSITION
+        ) VALUE (
+          #{memberName},
+          #{memberGenderCode},
+          #{phoneNumber},
+          #{remark},
+          DATE_FORMAT(#{firstAttendanceDate}, "%Y-%m-%d"),
+          '01' <!-- 코드값을 직접 입력하는 하드코딩 피하기 -->
+        )
+    </insert>
+
     <delete id="deleteAttendanceMember" parameterType="java.util.Map">
         DELETE FROM ATTENDANCE
-        WHERE ATTENDANCE_DATE = #{attendanceDate}
-          AND MEMBER_SEQ = #{memberSeq}
+        WHERE MEMBER_SEQ = #{memberSeq}
+          AND ATTENDANCE_DATE = #{attendanceDate}
     </delete>
+
+    <delete id="deleteMember" parameterType="String">
+        DELETE FROM MEMBER
+         WHERE MEMBER_SEQ = #{memberSeq}
+    </delete>
+
+    <delete id="deleteAllAttendanceToMember" parameterType="String">
+        DELETE FROM ATTENDANCE
+         WHERE MEMBER_SEQ = #{memberSeq}
+    </delete>
+
 
 
 

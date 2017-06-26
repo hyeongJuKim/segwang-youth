@@ -15,15 +15,47 @@ $(document).ready(function() {
     initDatepicker();
     initCheckboxHandler();
 
+    // popover init
+    $('[data-toggle="popover"]').popover();
+
+
     $("#memberAdd").on("click",function(){
         $('#myModal').modal('show');
-
     });
 
-    $("#btnNewMember").on("click",function(){
-        console.log();
-//        document.getElementById("formNewMember").submit();
+    $(".memberDel").on("click",function(){
+        var memberSeq = $(this).parent().parent().parent().find('input[class="attendance-checkbox"]').attr('id');
+        var formDeleteMember = "formDeleteMember-" + memberSeq;
 
+        // confirm Window - 이전에 기록된 모든 모든 출석이 삭제가 됩니다. 정말로 삭제하시겠습니까?
+
+        console.log(formDeleteMember);
+        document.getElementById(formDeleteMember).submit();
+    });
+
+
+
+
+    $("#btnNewMember").on("click",function(){
+        var memberName = $('input[name="memberName"]').val();
+        var memberGenderCode = $('select[name="memberGenderCode"]').val();
+        var firstAttendanceDate = $('input[name="firstAttendanceDate"]').val();
+
+        if (!isNullStr(memberName)){
+            alert("이름을 입력해주세요");
+            return;
+        }
+        if (!isNullStr(memberGenderCode)){
+            alert("성별을 입력해주세요");
+            return;
+        }
+        if (!isNullStr(firstAttendanceDate)){
+            alert("출석일을 입력해주세요");
+            return;
+        }
+
+        console.log("formNewMember submit");
+        document.getElementById("formNewMember").submit();
     });
 
 
@@ -33,6 +65,20 @@ $(document).ready(function() {
 
     function initDatepicker(){
         var disabledDays = [1, 2, 3, 4, 5, 6];
+        $('.default-datepicker').datepicker({
+            autoClose: true,
+            onRenderCell: function (date, cellType) {
+                if (cellType === 'day') {
+                    var day = date.getDay(),
+                        isDisabled = disabledDays.indexOf(day) != -1;
+                    return {
+                        disabled: isDisabled
+                    }
+                }
+            }
+
+        })
+
         $('.attendance-datepicker').datepicker({
             autoClose: true,
             onRenderCell: function (date, cellType) {
@@ -95,6 +141,17 @@ $(document).ready(function() {
             return false;
         }
         return true;
+    };
+
+
+    /**
+     * 문자열 유효성 체크.
+     * 좌우 공백 제거 후 문자열이 있는지 확인
+     * @param str
+     * @returns {boolean}
+     */
+    function isNullStr(str) {
+        return (!str.trim()) ? false : true;
     }
 
 
@@ -116,16 +173,16 @@ $(document).ready(function() {
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-3">
-                        <img id ="profile-img" src="${pageContext.request.contextPath}/resources/images/profile/question_mark.png"></img>
+                        <%--<img id ="profile-img" src="${pageContext.request.contextPath}/resources/images/profile/question_mark.png"></img>--%>
                     </div>
                     <div class="col-md-9">
-                        <form id="formNewMember" action="/attendance/newMember" method="post">
+                        <form id="formNewMember" action="${pageContext.request.contextPath}/attendance/newMember" method="post">
                             <div class="col-md-3">이름: </div>
-                            <div id="memberName" class="col-md-9"><input type='text' class="form-control" /></div><div class="clearfix"></div>
+                            <div class="col-md-9"><input type='text' name="memberName" class="form-control" required /></div><div class="clearfix"></div>
 
                             <div class="col-md-3">성별: </div>
-                            <div id="gender" class="col-md-9">
-                                    <select class="form-control" name="memberGenderCode">
+                            <div class="col-md-9">
+                                    <select class="form-control" name="memberGenderCode" required>
                                         <c:forEach var="codeListAF" items="${attendance.codeListAF}">
                                             <option value="${codeListAF.CODE_NO}" ${ codeListAF.CODE_NO == selectDetail.memberDetailInfo.MEMBER_GENDER_CODE ?  'selected="selected"' : ' '}>
                                                     ${codeListAF.CODE_NAME}
@@ -135,10 +192,22 @@ $(document).ready(function() {
                             </div><div class="clearfix"></div>
 
                             <div class="col-md-3">연락처: </div>
-                            <div id="phoneNumber" class="col-md-9"><input type='text' class="form-control" /></div><div class="clearfix"></div>
+                            <div class="col-md-9"><input type='text' name="phoneNumber" class="form-control" /></div><div class="clearfix"></div>
 
                             <div class="col-md-3">비고: </div>
-                            <div id="job" class="col-md-9"><textarea class="form-control" rows="3"></textarea> </div>
+                            <div class="col-md-9"><textarea name="remark" class="form-control" rows="3"></textarea> </div>
+
+                            <div class="col-md-3">등록일자(출석 시작일): </div>
+                            <div class="col-md-9">
+                                <input type='text'
+                                       <%--id ="attendance-date"--%>
+                                       name="firstAttendanceDate"
+                                       class="datepicker-here default-datepicker form-control"
+                                       data-position="bottom left"
+                                       data-language='ko'
+                                       readonly
+                                       required />
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -163,6 +232,7 @@ $(document).ready(function() {
                     <input type='text'
                            id ="attendance-date"
                            class="datepicker-here attendance-datepicker form-control"
+
                            data-position="bottom left"
                            data-language='ko'
                            readonly />
@@ -192,20 +262,28 @@ $(document).ready(function() {
                     </th>
                 </tr>
                 <c:forEach var="member" items="${village.villageMember}">
-                <tr>
-                    <td><span>${member.MEMBER_NAME}</span></td>
+                <tr <%-- class="${member.MEMBER_GENDER.equals('01') ? 'info' : 'warning'}" --%> >
+                    <td><span>${member.MEMBER_NAME}</span>
+                        <c:if test="${index.last}">
+                        <div style="text-align: center;"><button type="button" class="memberDel btn btn-xs btn-danger">Del</button></div>
+                        </c:if>
+                    </td>
                     <td>
-                        <input id="${member.MEMBER_SEQ}"
-                               class="attendance-checkbox"
-                               type="checkbox"
-                               village_seq="${village.villageSeq}"
-                               ${member.ATTENDANCE_YN eq "Y" ? "checked" : " "}>
+                        <form id="formDeleteMember-${member.MEMBER_SEQ}" action="${pageContext.request.contextPath}/attendance/deleteMember" method="post">
+                            <input id="${member.MEMBER_SEQ}"
+                                   class="attendance-checkbox"
+                                   type="checkbox"
+                                   village_seq="${village.villageSeq}"
+                                   ${member.ATTENDANCE_YN eq "Y" ? "checked" : " "}>
+                            <input type="hidden" name="memberSeq" value="${member.MEMBER_SEQ}">
+                            <input type="hidden" name="attendanceDate" value="2017-06-04"> <!-- 여기에 현재화면을 출석값을 넣아야함 !!!! insert할대도 오늘 날자로 되도록-->
+                        </form>
                     </td>
                 </tr>
                 </c:forEach>
                 <tr>
                     <td colspan="2">
-                        <span class="village-attendance-count">${village.attendanceCount}</span> /` <span class="village-all-count">${fn:length(village.villageMember)}</span>명
+                        <span class="village-attendance-count">${village.attendanceCount}</span> / <span class="village-all-count">${fn:length(village.villageMember)}</span>명
                     </td>
                 </tr>
                 <c:if test="${index.last}">
