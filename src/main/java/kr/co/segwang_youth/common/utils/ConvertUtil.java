@@ -6,9 +6,6 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by hj on 2017. 6. 21..
- */
 public class ConvertUtil {
 
 

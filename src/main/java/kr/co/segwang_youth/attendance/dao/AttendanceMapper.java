@@ -7,11 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by hj on 2017. 5. 17..
- */
 @Mapper
-//@Repository
 public interface AttendanceMapper {
 
     List<Map> villageSeqList();

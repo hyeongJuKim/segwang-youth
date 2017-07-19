@@ -13,7 +13,7 @@
     <div class="error-title">ERROR</div>
     <div class="error-message">
         오류가 발생했습니다.<br>
-        관리자에게 문의해주세요.</div>
+        관리자에게 문의하십시오.</div>
     <div class="error-footer">ERROR_CODE</div>
 </div>
 

@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: hj
-  Date: 2017. 4. 1.
-  Time: PM 11:11
-  회원 상세보기 화면
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>

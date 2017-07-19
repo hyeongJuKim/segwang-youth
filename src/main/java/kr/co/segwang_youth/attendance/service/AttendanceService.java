@@ -21,13 +21,11 @@ public class AttendanceService{
 
     /**
      * 해당 일의 출석 현황 조회
-     * @param attendanceDate
-     * @return
      */
     public Map attendance(String attendanceDate){
         Map attendance = new HashMap(); // controller return Map
-//        List<Map> villageSeqList = null;
         List<Map> villageSeqList = mapper.villageSeqList();
+//        List<Map> villageSeqList = null;
 
         List villageList = new ArrayList();
         int totalMemberCount = 0;       // 전체 회원
@@ -71,7 +69,6 @@ public class AttendanceService{
 
     /**
      * 선택한 회원을 출석/비출석 한다
-     * @param attendanceMember
      */
     public Map attendanceMember(Map attendanceMember) {
         if ("true".equals(attendanceMember.get("attendanceYn")))
@@ -83,7 +80,6 @@ public class AttendanceService{
 
     /**
      * 신규 회원 기본정보 입력.
-     * @param map
      */
     public void insertSimplyMember(Map map) {
         mapper.insertSimplyMember(map);
@@ -91,7 +87,6 @@ public class AttendanceService{
 
     /**
      * 신규회원 삭제 (출석화면에서)
-     * @param memberSeq
      */
     public void deleteSimplyMember(String memberSeq) {
         mapper.deleteMember(memberSeq);
@@ -100,7 +95,6 @@ public class AttendanceService{
 
     /**
      * 입력날짜 기준으로 최근 4주간 출석 조회.
-     * @param attendanceMap
      */
     public List<Map> fourWeekAttendance(Map attendanceMap) {
         return mapper.selectFourWeekAttendance(attendanceMap);

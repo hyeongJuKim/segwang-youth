@@ -18,9 +18,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-/**
- * Created by hj on 2017. 3. 31..
- */
 @Controller
 @RequestMapping(value="/attendance")
 public class AttendanceController {
@@ -84,7 +81,6 @@ public class AttendanceController {
 
     /**
      * 출석View에서 임시로 신규회원 등록.
-     * @return
      */
     @RequestMapping(value = "newMember",method = {RequestMethod.POST})
     public String newMember(HttpServletRequest request,RedirectAttributes redirectAttributes){
@@ -96,7 +92,6 @@ public class AttendanceController {
 
     /**
      * 출석View에서 신규회원 삭제.
-     * @return
      */
     @RequestMapping(value = "deleteMember",method = {RequestMethod.POST})
     public String deleteMember(HttpServletRequest request,RedirectAttributes redirectAttributes){
@@ -110,8 +105,6 @@ public class AttendanceController {
 
     /**
      * 입력날짜 기준으로 최근 4주간 출석 조회.
-     * @param request
-     * @return Last 4 Week Attendance
      */
     @RequestMapping(value = "fourWeekAttendance", method = RequestMethod.POST, produces="text/plain; charset=UTF-8")
     @ResponseBody

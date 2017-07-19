@@ -41,4 +41,26 @@
 <!-- Custom CSS -->
 <link href="/css/segwang-youth.css" rel="stylesheet" type="text/css">
 
+<!-- TODO: TITLE도 MENU 테이블에서 가져오기 -->
+<title></title>
+</head>
+<body>
+
+<!-- //TODO: 공통적으로 모든 곳에 적용하기. DB에서 가져오기. (메뉴 html코드 위치 어떻게 하지?)
+       TODO: 로그인 기능이 추가 되기 전 까지 임시로 세션모달창 넣기.
+-->
+<div class="left-nav">
+    <div class="item">
+        <a href="/dashboard"> <span class="glyphicon glyphicon-dashboard"></span> DashBoard
+        </a>
+    </div>
+    <div class="item">
+        <a href="/attendance"> <span class="glyphicon glyphicon-tasks"></span> 출석관리
+        </a>
+    </div>
+    <div class="item">
+        <a href="/member"> <span class="glyphicon glyphicon-user"></span> 청년관리
+        </a>
+    </div>
+</div>
 

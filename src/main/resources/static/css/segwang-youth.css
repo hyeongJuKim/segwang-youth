@@ -15,12 +15,16 @@ textarea {
 	resize:vertical; 
 }
 
+a:link { color:#FFFFFF; text-decoration: none; }
+a:visited { color:#FFFFFF; text-decoration: none; }
+a:hover { color:#FFFFFF; text-decoration: none; }
+a:active { color:#FFFFFF; text-decoration: underline; }
+
 /* Custom */
 .table-search{
     height: 420px !important;
     overflow: scroll;
 }
-
 
 .row-margin {
 	margin-top: 10px;
@@ -67,6 +71,10 @@ textarea {
 	width: 800px;
 }
 
+.attendace-title {
+	font-size: 20px;
+}
+
 .attendance-checkbox {
 	zoom: 1.5;
 }
@@ -79,6 +87,7 @@ textarea {
 .btn-bottom-group {
 	float: right;
 }
+
 
 /* error page CSS */
 
@@ -107,6 +116,59 @@ textarea {
 
 .error-footer {
 	color: #45bced;
+}
+
+
+/* left-nav */
+.left-nav, .contents {
+	float:left;
+	height:100vh;
+}
+
+.left-nav {
+	background: #337ab7;
+	display: inline-block;
+	white-space: nowrap;
+	width: 50px;
+	transition: width 0.5s ;
+	position: fixed; /* Stay in place */
+	overflow-x: hidden;
+	z-index: 1;
+}
+
+.contents {
+	background: #fff;
+	width: 500px;
+	transition: width 0.7s;
+	padding-left: 53px;
+}
+
+.left-nav:hover {
+	width: 200px;
+}
+
+.item:hover {
+	background-color:#ccc;
+}
+
+.left-nav .glyphicon {
+	margin:15px;
+	width:20px;
+	color:#fff;
+}
+
+.contents .glyphicon {
+	color:#a9a9a9;
+}
+span.glyphicon.glyphicon-refresh{
+	font-size:17px;
+	vertical-align: middle !important;
+}
+
+.item {
+	height:50px;
+	overflow:hidden;
+	color:#fff;
 }
 
 
