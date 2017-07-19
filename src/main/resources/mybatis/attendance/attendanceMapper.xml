@@ -102,6 +102,32 @@
          WHERE MEMBER_SEQ = #{memberSeq}
     </delete>
 
+    <select id="selectFourWeekAttendance" parameterType="hashMap" resultType="hashMap">
+    <!-- 입력 날짜 전 주 기준으로 무조건 4주 출결상황.현재 쿼리 이상함.... -->
+        SELECT M.MEMBER_SEQ,
+               M.MEMBER_NAME,
+               M.MEMBER_BIRTHDAY,
+               DATE_FORMAT(ATTENDANCE_DATE, '%Y-%m-%d')  AS ATTENDANCE_DATE,
+               IF(ATTENDANCE_YN = 'Y','O','X') AS ATTENDANCE_YN,
+               @rownum := @rownum + 1 AS RANK,
+               MEMBER_GENDER
+        FROM MEMBER M
+        INNER JOIN (SELECT VILLAGE_SEQ,VILLAGE_NAME
+                      FROM VILLAGE) V
+                        ON M.VILLAGE_SEQ = V.VILLAGE_SEQ
+        LEFT OUTER JOIN  (SELECT MEMBER_SEQ,
+                                 ATTENDANCE_YN,
+                                 ATTENDANCE_DATE,
+                                 @rownum := 0
+                            FROM ATTENDANCE
+                           WHERE ATTENDANCE_DATE <![CDATA[ <= ]]> #{attendanceDate}) A
+        ON M.MEMBER_SEQ = A.MEMBER_SEQ
+        WHERE M.MEMBER_POSITION IN ('02','01')
+          AND A.MEMBER_SEQ = #{memberSeq}
+          AND @rownum <![CDATA[ < ]]>  4
+        ORDER BY A.ATTENDANCE_DATE DESC
+  </select>
+
 
 
 

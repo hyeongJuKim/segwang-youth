@@ -12,11 +12,8 @@
 
 <script>
 $(document).ready(function() {
-    initDatepicker();
+    initEvent();
     initCheckboxHandler();
-
-    // popover init
-    $('[data-toggle="popover"]').popover();
 
 
     $("#memberAdd").on("click",function(){
@@ -61,6 +58,54 @@ $(document).ready(function() {
 
     $('#attendance-date').val("${attendance.attendanceDate}");
 
+
+    function initEvent(){
+        initTooltip();
+        initDatepicker();
+
+    };
+
+
+    function initTooltip(){
+        var this_a = $(this).attr('id');
+        const el = $('span[data-origianl-title=' + this_a + ']');
+
+        // ToolTip
+        tippy('.member-tooltip',{
+            position: 'bottom',
+            trigger: 'click',
+            interactive: 'true',
+            animation: 'shift',
+            theme: 'light',
+            size: 'big',
+            show: function(){
+                const el = $(this).find('div[class=tippy-tooltip-content]');
+                var id = this.id;
+                var memberName = $('span[aria-describedby='+id+']').text();
+                var memberForm = $('span[aria-describedby='+id+']').closest('tr').find('form');
+                var memberSeq = memberForm.children()[1].value;
+                var attendanceDate = memberForm.children()[2].value;
+
+                $.ajax({
+                    url : "${pageContext.request.contextPath}/attendance/fourWeekAttendance" ,
+                    method: 'POST',
+                    data: {"memberSeq":memberSeq, "attendanceDate": attendanceDate} ,
+                    dataType: 'JSON' ,
+                    success: function(data){
+                        var str = memberName + "<br>";
+                        str += "최근 출석<br>";
+                        $.each(data, function(i) {
+                            str += data[i].ATTENDANCE_DATE + "&nbsp&nbsp" + data[i].ATTENDANCE_YN + "<br>";
+                        });
+                        el.html(str);
+                    },
+                    error: function(error){
+                    }
+                });
+
+            }
+        })
+    };
 
 
     function initDatepicker(){
@@ -200,7 +245,6 @@ $(document).ready(function() {
                             <div class="col-md-3">등록일자(출석 시작일): </div>
                             <div class="col-md-9">
                                 <input type='text'
-                                       <%--id ="attendance-date"--%>
                                        name="firstAttendanceDate"
                                        class="datepicker-here default-datepicker form-control"
                                        data-position="bottom left"
@@ -222,6 +266,7 @@ $(document).ready(function() {
     </div>
 </div> <!-- modal end -->
 
+
 <div class="container">
 
     <div class="row row-margin">
@@ -232,7 +277,6 @@ $(document).ready(function() {
                     <input type='text'
                            id ="attendance-date"
                            class="datepicker-here attendance-datepicker form-control"
-
                            data-position="bottom left"
                            data-language='ko'
                            readonly />
@@ -244,11 +288,6 @@ $(document).ready(function() {
         </div>
         <div class="col-md-4">
             <progress value="${attendance.totalAttendanceCount}" max="${attendance.totalMemberCount}"></progress>
-        <%--<div class="progress">--%>
-                <%--<div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">--%>
-                    <%--<span class="sr-only"></span>--%>
-                <%--</div>--%>
-            <%--</div>--%>
         </div>
     </div>
 
@@ -263,7 +302,9 @@ $(document).ready(function() {
                 </tr>
                 <c:forEach var="member" items="${village.villageMember}">
                 <tr <%-- class="${member.MEMBER_GENDER.equals('01') ? 'info' : 'warning'}" --%> >
-                    <td><span>${member.MEMBER_NAME}</span>
+                    <td ><span class="member-tooltip" title="loading ...">
+                            ${member.MEMBER_NAME}
+                        </span>
                         <c:if test="${index.last}">
                         <div style="text-align: center;"><button type="button" class="memberDel btn btn-xs btn-danger">Del</button></div>
                         </c:if>
@@ -276,7 +317,7 @@ $(document).ready(function() {
                                    village_seq="${village.villageSeq}"
                                    ${member.ATTENDANCE_YN eq "Y" ? "checked" : " "}>
                             <input type="hidden" name="memberSeq" value="${member.MEMBER_SEQ}">
-                            <input type="hidden" name="attendanceDate" value="2017-06-04"> <!-- 여기에 현재화면을 출석값을 넣아야함 !!!! insert할대도 오늘 날자로 되도록-->
+                            <input type="hidden" name="attendanceDate" value="${attendance.attendanceDate}">
                         </form>
                     </td>
                 </tr>

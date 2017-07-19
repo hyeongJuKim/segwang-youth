@@ -80,5 +80,33 @@ textarea {
 	float: right;
 }
 
+/* error page CSS */
+
+.error-div {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	width: 40%;
+	padding: 20px;
+	text-align: center;
+}
+
+.error-image {
+	/* 한곳에서만 정의해서 재사용성 높이도록 구현
+	CSS에서 ContextPath 넣는 법 찾기 */
+	/*content:url('/resources/images/error/error.png');*/
+}
+.error-title {
+	font-size: 45px;
+}
+
+.error-message {
+	font-size: 20px;
+}
+
+.error-footer {
+	color: #45bced;
+}
 
 

@@ -26,6 +26,7 @@ public class AttendanceService{
      */
     public Map attendance(String attendanceDate){
         Map attendance = new HashMap(); // controller return Map
+//        List<Map> villageSeqList = null;
         List<Map> villageSeqList = mapper.villageSeqList();
 
         List villageList = new ArrayList();
@@ -95,5 +96,13 @@ public class AttendanceService{
     public void deleteSimplyMember(String memberSeq) {
         mapper.deleteMember(memberSeq);
         mapper.deleteAllAttendanceToMember(memberSeq);
+    }
+
+    /**
+     * 입력날짜 기준으로 최근 4주간 출석 조회.
+     * @param attendanceMap
+     */
+    public List<Map> fourWeekAttendance(Map attendanceMap) {
+        return mapper.selectFourWeekAttendance(attendanceMap);
     }
 }

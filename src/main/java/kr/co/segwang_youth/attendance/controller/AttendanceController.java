@@ -66,7 +66,6 @@ public class AttendanceController {
 
         Gson gson = new Gson();
         String json = gson.toJson(resultCheckMember);
-        System.out.println("json" + json);
 
         return json;
     }
@@ -92,7 +91,6 @@ public class AttendanceController {
         Map map = ConvertUtil.convertRequestGetParamToMap(request);
         service.insertSimplyMember(map);
         redirectAttributes.addAttribute("attendanceDate",map.get("firstAttendanceDate"));
-        System.out.println("attendance Date : " + map.get("firstAttendanceDate"));
         return "redirect:";
     }
 
@@ -107,6 +105,28 @@ public class AttendanceController {
         service.deleteSimplyMember(memberSeq);
         redirectAttributes.addAttribute("attendanceDate",attendanceDate);
         return "redirect:";
+    }
+
+
+    /**
+     * 입력날짜 기준으로 최근 4주간 출석 조회.
+     * @param request
+     * @return Last 4 Week Attendance
+     */
+    @RequestMapping(value = "fourWeekAttendance", method = RequestMethod.POST, produces="text/plain; charset=UTF-8")
+    @ResponseBody
+    public String fourWeekAttendance(HttpServletRequest request){
+
+        Map attendanceMap= new HashMap();
+        String attendanceDate = request.getParameter("attendanceDate");
+        String memberSeq = request.getParameter("memberSeq");
+        attendanceMap.put("attendanceDate",attendanceDate);
+        attendanceMap.put("memberSeq",memberSeq);
+
+        Gson gson = new Gson();
+        String json = gson.toJson(service.fourWeekAttendance(attendanceMap));
+
+        return json;
     }
 
 }

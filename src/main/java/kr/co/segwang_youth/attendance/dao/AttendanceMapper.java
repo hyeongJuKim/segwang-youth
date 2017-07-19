@@ -31,4 +31,8 @@ public interface AttendanceMapper {
     void deleteMember(String memberSeq);
 
     void deleteAllAttendanceToMember(String memberSeq);
+
+    List<Map> selectFourWeekAttendance(Map attendanceMap);
+
+
 }

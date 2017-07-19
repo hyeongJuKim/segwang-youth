@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration debug="true">
 
+    <!--<property name="DEV_HOME" value="${HOME}/segwang-web/log" />-->
+
     <appender name="ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- rollover daily -->
+            <!--<fileNamePattern>${DEV_HOME}/mylog-%d{yyyy-MM-dd}.%i.txt.zip</fileNamePattern>-->
             <fileNamePattern>mylog-%d{yyyy-MM-dd}.%i.txt.zip</fileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <!-- or whenever the file size reaches 100MB -->
+                <!-- or whenever the file size reaches 100MB -->,
                 <maxFileSize>100MB</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
