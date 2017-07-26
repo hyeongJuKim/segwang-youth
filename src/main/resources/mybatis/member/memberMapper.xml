@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.segwang_youth.member.dao.MemberMapper">
+
+    <select id="selectAllMember" parameterType="hashMap" resultType="java.util.Map">
+        SELECT M.MEMBER_NAME
+             , SF_GET_CODE_NAME('AF',M.MEMBER_GENDER) AS MEMBER_GENDER
+             , M.MEMBER_BIRTHDAY
+             , (SELECT V.VILLAGE_NAME FROM VILLAGE V WHERE M.VILLAGE_SEQ = V.VILLAGE_SEQ) AS VILLAGE_NAME
+             , SF_GET_CODE_NAME('AA',M.MEMBER_POSITION) AS MEMBER_POSITION
+             , M.PHONE_NUMBER
+             , M.MEMBER_JOB
+          FROM MEMBER M
+        ORDER BY MEMBER_NAME ASC
+    </select>
+
+</mapper>

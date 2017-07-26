@@ -1,18 +1,10 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: hj
-  Date: 2017. 4. 1.
-  Time: PM 6:08
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<jsp:include page="/WEB-INF/views/include/layoutTop.jsp" flush="true" />
 
 
+<% // TODO: 출석보고가 완료돠면 함부로 수정되지 않도록 잠금을 걸수 있는 기능 추가. (수정 가능. 수정 불가.) %>
 
-<!-- TODO: 출석보고가 완료돠면 함부로 수정되지 않도록 잠금을 걸수 있는 기능 추가. -->
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -79,26 +71,23 @@
         <div class="col-md-4">
             <form id="calendarForm" class="form-inline">
                 <div class="form-group">
-                    <label for="attendance-date">조회</label>
+                    <label for="attendance-date">출석일</label>
                     <input type='text'
                            id ="attendance-date"
                            class="datepicker-here attendance-datepicker form-control"
                            data-position="bottom left"
                            data-language='ko'
                            readonly />
-                    <%--<span>--%>
-                        <%--출석 <span id="total-count">${attendance.totalAttendanceCount}</span> / ${attendance.totalMemberCount}--%>
-                    <%--</span>--%>
                 </div>
             </form>
         </div>
         <div class="col-md-4">
             <span class="attendace-title">${attendance.attendanceDate} 세광청년공동체 출석</span>
             <%--<progress value="${attendance.totalAttendanceCount}" max="${attendance.totalMemberCount}"></progress>--%>
-            <span>
+            <span class="attendace-count">
                 <span id="total-count">${attendance.totalAttendanceCount}</span> / ${attendance.totalMemberCount}
+                <%--<img src="images/attendance/unlock_black.png">--%>
             </span>
-
         </div>
     </div>
 
@@ -109,6 +98,9 @@
                 <tr>
                     <th colspan="2" class="village-name">
                         ${village.villageName}
+                        <div>
+                            <span class="village-attendance-count">${village.attendanceCount}</span> / <span class="village-all-count">${fn:length(village.villageMember)}</span>명
+                        </div>
                     </th>
                 </tr>
                 <c:forEach var="member" items="${village.villageMember}">
@@ -133,11 +125,6 @@
                     </td>
                 </tr>
                 </c:forEach>
-                <tr>
-                    <td colspan="2">
-                        <span class="village-attendance-count">${village.attendanceCount}</span> / <span class="village-all-count">${fn:length(village.villageMember)}</span>명
-                    </td>
-                </tr>
                 <c:if test="${index.last}">
                 <tr>
                     <td>
@@ -155,8 +142,6 @@
 
 
 
-
-<jsp:include page="/WEB-INF/views/include/layoutBottom.jsp" flush="true" />
 
     <script>
         $(document).ready(function() {
@@ -242,14 +227,19 @@
                             dataType: 'JSON' ,
                             success: function(data){
                                 var str = memberName + "<br>";
-                                str += "최근 출석<br>";
-                                $.each(data, function(i) {
-                                    str += data[i].ATTENDANCE_DATE + "&nbsp&nbsp" + data[i].ATTENDANCE_YN + "<br>";
-                                });
+
+                                if(data.length > 0) {
+                                    str += "최근 출석<br>";
+                                    $.each(data, function (i) {
+                                        str += data[i].ATTENDANCE_DATE + "&nbsp&nbsp" + data[i].ATTENDANCE_YN + "<br>";
+                                    });
+                                } else {
+                                    str += "최근 출석 정보가 없습니다.";
+                                }
                                 el.html(str);
+
                             },
-                            error: function(error){
-                            }
+                            error: function(error){ }
                         });
 
                     }
@@ -341,8 +331,6 @@
             /**
              * 문자열 유효성 체크.
              * 좌우 공백 제거 후 문자열이 있는지 확인
-             * @param str
-             * @returns {boolean}
              */
             function isNullStr(str) {
                 return (!str.trim()) ? false : true;

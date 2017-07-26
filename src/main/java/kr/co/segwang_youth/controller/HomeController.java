@@ -5,15 +5,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
- * Created by hj on 2017. 3. 31..
+ * 메인 페이지, DashBoard
  */
+
 @Controller
 @RequestMapping(value="/")
-public class HomeController {
+public class HomeController{
 
     @RequestMapping(method = RequestMethod.GET)
     public String home(){
-
         return "home";
     }
 

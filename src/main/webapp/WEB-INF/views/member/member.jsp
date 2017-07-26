@@ -1,19 +1,7 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: hj
-  Date: 2017. 4. 1.
-  Time: PM 6:08
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<jsp:include page="/WEB-INF/views/include/layoutTop.jsp" flush="true" />
 
-
-<title>세광청년부 : 청년 조회</title>
-</head>
-<body>
 
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -94,9 +82,9 @@
                 <%--<button type="submit" class="btn btn-default">조회</button>  <br><br>--%>
             <%--</div>--%>
         <%--</form>--%>
-
+        <%//TODO 테이블 컴포넌트 VUE.JS사용(원하는대로 sort가능하도록.) %>
         <div class="table-search">
-            <h3 class="panel-title">SegwangYouth Member: ${fn:length(memberList)}명</h3>
+            <h3 class="panel-title">세광청년공동체: ${fn:length(memberList)}명</h3>
             <table class="table table-hover">
                 <thead>
                 <tr class="active">
@@ -114,13 +102,13 @@
                 <c:forEach var="member" items="${memberList}" varStatus="status">
                     <tr style="cursor: pointer;" class="memberDetail" value="${member.memberSeq}">
                         <td style="width: 30px; color:#ABABAB;">${status.count}</td>
-                        <td>${member.memberName}</td>
-                        <td><%--${member.memberGender}--%></td>
+                        <td>${member.MEMBER_NAME}</td>
+                        <td>${member.MEMBER_GENDER}</td>
                         <td>${member.memberBirthday}</td>
-                        <td><%--${member.villageName}--%></td>
-                        <td><%--${member.memberPosition}--%></td>
+                        <td>${member.VILLAGE_NAME}마을</td>
+                        <td>${member.MEMBER_POSITION}</td>
                         <td><%--${member.phoneNumber}--%></td>
-                        <td><%--${member.memberjob}--%></td>
+                        <td><%--${member.MEMBER_JOB}--%></td>
                     </tr>
                 </c:forEach>
                 </tbody>
@@ -150,8 +138,5 @@
         <%--</c:forEach>--%>
 
     <%--</div> <!-- row -->--%>
+    <%----%>
 </div>
-
-
-
-<jsp:include page="/WEB-INF/views/include/layoutBottom.jsp" flush="true" />

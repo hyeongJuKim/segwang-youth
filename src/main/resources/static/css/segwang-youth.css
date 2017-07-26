@@ -29,6 +29,7 @@ a:active { color:#FFFFFF; text-decoration: underline; }
 .row-margin {
 	margin-top: 10px;
 	margin-bottom: 10px;
+	text-align: center;
 }
 
 .no-padding {
@@ -72,7 +73,13 @@ a:active { color:#FFFFFF; text-decoration: underline; }
 }
 
 .attendace-title {
+	margin-left: 5px;
+	margin-right: 5px;
 	font-size: 20px;
+}
+
+.attendace-count {
+	font-size: 17px;
 }
 
 .attendance-checkbox {
@@ -126,7 +133,7 @@ a:active { color:#FFFFFF; text-decoration: underline; }
 }
 
 .left-nav {
-	background: #337ab7;
+	background: #0d61b5;
 	display: inline-block;
 	white-space: nowrap;
 	width: 50px;

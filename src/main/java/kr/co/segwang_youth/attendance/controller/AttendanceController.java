@@ -20,7 +20,7 @@ import java.util.*;
 
 @Controller
 @RequestMapping(value="/attendance")
-public class AttendanceController {
+public class AttendanceController{
 
     @Autowired
     private AttendanceService service;

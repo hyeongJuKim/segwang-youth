@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
-<jsp:include page="/WEB-INF/views/include/layoutTop.jsp" flush="true" />
 <html lang="ko">
+<% //TODO 에러페이지 적용시키기 %>
 <head>
     <meta charset="UTF-8">
     <title>Error</title>
@@ -14,7 +14,6 @@
     <div class="error-message">
         오류가 발생했습니다.<br>
         관리자에게 문의하십시오.</div>
-    <div class="error-footer">ERROR_CODE</div>
+    <div class="error-footer">${error}</div>
 </div>
 
-<jsp:include page="/WEB-INF/views/include/layoutBottom.jsp" flush="true" />
