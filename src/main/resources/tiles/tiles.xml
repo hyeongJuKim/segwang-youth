@@ -24,9 +24,6 @@
         <put-attribute name="contents" value="/WEB-INF/views/{1}/{2}.jsp" />
     </definition>
 
-    <definition name="error" extends="basic-layout">
-        <put-attribute name="contents" value="/WEB-INF/views/error/error.jsp" />
-    </definition>
 
 
 

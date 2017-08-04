@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
-<html lang="ko">
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<jsp:include page="../template/header.jsp" flush="true" />
+
+<%--<html lang="ko">--%>
 <% //TODO 에러페이지 적용시키기 %>
 <head>
     <meta charset="UTF-8">
