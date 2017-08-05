@@ -72,6 +72,10 @@ public class AttendanceController{
      */
     @RequestMapping(value="{attendanceDate}",  method = {RequestMethod.GET})
     public String attendanceDate(Model model,@PathVariable("attendanceDate") String attendanceDate){
+
+        if(!DateUtil.isDayOfWeek(Calendar.SUNDAY,attendanceDate))
+            return "redirect:/attendance";
+
         Map attendance = service.attendance(attendanceDate);
         model.addAttribute("attendance",attendance);
         model.addAttribute("attendanceDate",attendanceDate);
